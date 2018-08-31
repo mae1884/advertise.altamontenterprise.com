@@ -19,12 +19,27 @@
                 text-indent: 11px;
                 text-align: justify;
                 line-height: 7.6pt;
-                font-family: MyWebFont;
+                font-family: HelveticaNeue;
             }
-            @font-face {
-                font-family: 'MyWebFont';
-                src: url('demo/HelveticaNeue.ttf'); 
-            }
+            
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('fonts/HelveticaNeue.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src:  url('fonts/HelveticaNeue.woff') format('woff'), 
+  url('fonts/HelveticaNeue.ttf')  format('truetype'), 
+  url('fonts/HelveticaNeue.svg#HelveticaNeue') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
         </style>
     </head>   
     <body>
@@ -140,11 +155,11 @@
                                             <label class="control-label col-md-4"></label>
                                             <div class="controls col-md-8 ">
                                                 <div class="note">
-                                                Note: Please add your address where Affidavit will be sent
+                                                    Note: Please add your address where Affidavit will be sent
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Billing address <span class="error">*</span> </label>
                                             <div class="controls col-md-8 ">
@@ -190,43 +205,43 @@
                                                 <label class="control-label col-md-4"></label>
                                                 <div class="controls col-md-8 ">
                                                     <?php /*
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" class="AffidavitAddress" id="terms" onchange="valueChanged()" name="affidavitaddress"> Affidavit address (check if different from above) 
-                                                        </label>
+                                                      <div class="checkbox">
+                                                      <label>
+                                                      <input type="checkbox" class="AffidavitAddress" id="terms" onchange="valueChanged()" name="affidavitaddress"> Affidavit address (check if different from above)
+                                                      </label>
 
-                                                    </div>
+                                                      </div>
 
-                                                    <div class="mt10 answer" style="display: none;">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-4">Billing address <span class="error">*</span> </label>
-                                                            <div class="controls col-md-8 ">
-                                                                <input type="text" class="form-control"  name="billingaddress_afadd" placeholder="" >
-                                                            </div>
-                                                        </div>
+                                                      <div class="mt10 answer" style="display: none;">
+                                                      <div class="form-group">
+                                                      <label class="control-label col-md-4">Billing address <span class="error">*</span> </label>
+                                                      <div class="controls col-md-8 ">
+                                                      <input type="text" class="form-control"  name="billingaddress_afadd" placeholder="" >
+                                                      </div>
+                                                      </div>
 
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-4">City <span class="error">*</span> </label>
-                                                            <div class="controls col-md-8 ">
-                                                                <input type="text" class="form-control"  name="city_afadd" placeholder="" >
-                                                            </div>
-                                                        </div>
+                                                      <div class="form-group">
+                                                      <label class="control-label col-md-4">City <span class="error">*</span> </label>
+                                                      <div class="controls col-md-8 ">
+                                                      <input type="text" class="form-control"  name="city_afadd" placeholder="" >
+                                                      </div>
+                                                      </div>
 
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-4">State <span class="error">*</span> </label>
-                                                            <div class="controls col-md-8 ">
-                                                                <input type="text" class="form-control"  name="state_afadd" placeholder="" >
-                                                            </div>
-                                                        </div>
+                                                      <div class="form-group">
+                                                      <label class="control-label col-md-4">State <span class="error">*</span> </label>
+                                                      <div class="controls col-md-8 ">
+                                                      <input type="text" class="form-control"  name="state_afadd" placeholder="" >
+                                                      </div>
+                                                      </div>
 
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-4">ZIP code <span class="error">*</span> </label>
-                                                            <div class="controls col-md-8 ">
-                                                                <input type="text" class="form-control"  name="zipcode_afadd" placeholder="" >
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    */ ?>
+                                                      <div class="form-group">
+                                                      <label class="control-label col-md-4">ZIP code <span class="error">*</span> </label>
+                                                      <div class="controls col-md-8 ">
+                                                      <input type="text" class="form-control"  name="zipcode_afadd" placeholder="" >
+                                                      </div>
+                                                      </div>
+                                                      </div>
+                                                     */ ?>
                                                     <div class="mt10 note">
                                                         <p>Add the text you want published as a legal notice in the box below. We will format it and send a proof and cost estimate to your email. Please note, your notice won't be published without an approval email by the Monday before Thursday publication. </p>
 
@@ -325,134 +340,138 @@
         <script src="js/validator.js"></script> 
         <textarea class="form-control ta" id="ta" name="note" style="color: white;    box-shadow: white 0px 1px 1px inset;border-color: white;"></textarea>
         <script>
-                                                                $(document).ready(function () {
-                                                                    $('#myForm').validator();
-                                                                });
+            $(document).ready(function () {
+                $('#myForm').validator();
+            });
 
-                                                                // Affidavit Address Checkbox
-                                                                function valueChanged()
-                                                                {
-                                                                    if ($('.AffidavitAddress').is(":checked")) {
-                                                                        $(".answer").show();
-                                                                        $(".answer input").attr('required', true);
-                                                                    }
-                                                                    else {
-                                                                        $(".answer").hide();
-                                                                        $(".answer input").removeAttr('required');
-                                                                    }
-                                                                }
-                                                                // Bordered Display ad Checkbox
-                                                                $(document).ready(function () {
+            // Affidavit Address Checkbox
+            function valueChanged()
+            {
+                if ($('.AffidavitAddress').is(":checked")) {
+                    $(".answer").show();
+                    $(".answer input").attr('required', true);
+                }
+                else {
+                    $(".answer").hide();
+                    $(".answer input").removeAttr('required');
+                }
+            }
+            // Bordered Display ad Checkbox
+            $(document).ready(function () {
 
-                                                                    $("input[name$='Publish']").click(function () {
-                                                                        var test = $(this).val();
-                                                                        if (test == 'bordered') {
-                                                                            $(".bordered-display-ad-data").show();
-                                                                        } else {
-                                                                            $(".bordered-display-ad-data").hide();
-                                                                        }
-
-
-                                                                        if (test == 'announcement') {
-                                                                            $(".announcement-data").show();
-                                                                        } else {
-                                                                            $(".announcement-data").hide();
-                                                                        }
+                $("input[name$='Publish']").click(function () {
+                    var test = $(this).val();
+                    if (test == 'bordered') {
+                        $(".bordered-display-ad-data").show();
+                    } else {
+                        $(".bordered-display-ad-data").hide();
+                    }
 
 
-                                                                        if (test == 'legalnotice') {
-                                                                            $(".legal-notice-data").show();
-                                                                            $(".legal_note_affd").show();
-                                                                        } else {
-                                                                            $(".legal-notice-data").hide();
-                                                                            $(".legal_note_affd").hide();
-                                                                        }
-                                                                    });
-                                                                });
+                    if (test == 'announcement') {
+                        $(".announcement-data").show();
+                    } else {
+                        $(".announcement-data").hide();
+                    }
 
-                                                                $(document).ready(function () {
-                                                                    $(".btn").click(function () {
 
-                                                                        $('#buttonsubmitImage').show();
-                                                                        setTimeout(function () {
-                                                                            $("#buttonsubmitImage").fadeOut(0);
-                                                                        }, 2000)
-                                                                    });
-                                                                });
+                    if (test == 'legalnotice') {
+                        $(".legal-notice-data").show();
+                        $(".legal_note_affd").show();
+                    } else {
+                        $(".legal-notice-data").hide();
+                        $(".legal_note_affd").hide();
+                    }
+                });
+            });
 
-                                                                // Loading Image
-                                                                $(function () {
-                                                                    setTimeout(function () {
-                                                                        $("#successMessage").fadeOut(0);
-                                                                    }, 1000)
-                                                                    $('.checkbox input[type="radio"]').click(function () {
-                                                                        $('#successMessage').show();
-                                                                        setTimeout(function () {
-                                                                            $("#successMessage").fadeOut(0);
-                                                                        }, 1000)
-                                                                    })
-                                                                })
-                                                                var calculateContentHeight = function (ta, scanAmount) {
-                                                                    var origHeight = ta.style.height,
-                                                                            height = ta.offsetHeight,
-                                                                            scrollHeight = ta.scrollHeight,
-                                                                            overflow = ta.style.overflow;
-                                                                    /// only bother if the ta is bigger than content
-                                                                    if (height >= scrollHeight) {
-                                                                        /// check that our browser supports changing dimension
-                                                                        /// calculations mid-way through a function call...
-                                                                        ta.style.height = (height + scanAmount) + 'px';
-                                                                        /// because the scrollbar can cause calculation problems
-                                                                        ta.style.overflow = 'hidden';
-                                                                        /// by checking that scrollHeight has updated
-                                                                        if (scrollHeight < ta.scrollHeight) {
-                                                                            /// now try and scan the ta's height downwards
-                                                                            /// until scrollHeight becomes larger than height
-                                                                            while (ta.offsetHeight >= ta.scrollHeight) {
-                                                                                ta.style.height = (height -= scanAmount) + 'px';
-                                                                            }
-                                                                            /// be more specific to get the exact height
-                                                                            while (ta.offsetHeight < ta.scrollHeight) {
-                                                                                ta.style.height = (height++) + 'px';
-                                                                            }
-                                                                            /// reset the ta back to it's original height
-                                                                            ta.style.height = origHeight;
-                                                                            /// put the overflow back
-                                                                            ta.style.overflow = overflow;
-                                                                            return height;
-                                                                        }
-                                                                    } else {
-                                                                        return scrollHeight;
-                                                                    }
-                                                                }
+            $(document).ready(function () {
+                $(".btn").click(function () {
 
-                                                                var calculateHeight = function () {
-                                                                    var ta = document.getElementById("ta"),
-                                                                            style = (window.getComputedStyle) ?
-                                                                            window.getComputedStyle(ta) : ta.currentStyle,
-                                                                            // This will get the line-height only if it is set in the css,
-                                                                            // otherwise it's "normal"
-                                                                            taLineHeight = parseInt(style.lineHeight, 10),
-                                                                            // Get the scroll height of the textarea
-                                                                            taHeight = calculateContentHeight(ta, taLineHeight),
-                                                                            // calculate the number of lines
-                                                                            numberOfLines = Math.ceil(taHeight / taLineHeight) - 2;
+                    $('#buttonsubmitImage').show();
+                    setTimeout(function () {
+                        $("#buttonsubmitImage").fadeOut(0);
+                    }, 2000)
+                });
+            });
 
-                                                                    document.getElementById("lines").innerHTML = "there are " +
-                                                                            numberOfLines + " lines in the Legal Notes";
-                                                                    $("#leganoticLinesCount").val(numberOfLines);
-                                                                };
+            // Loading Image
+            $(function () {
+                setTimeout(function () {
+                    $("#successMessage").fadeOut(0);
+                }, 1000)
+                $('.checkbox input[type="radio"]').click(function () {
+                    $('#successMessage').show();
+                    setTimeout(function () {
+                        $("#successMessage").fadeOut(0);
+                    }, 1000)
+                })
+            })
+            var calculateContentHeight = function (ta, scanAmount) {
+                var origHeight = ta.style.height,
+                        height = ta.offsetHeight,
+                        scrollHeight = ta.scrollHeight,
+                        overflow = ta.style.overflow;
+                /// only bother if the ta is bigger than content
+                if (height >= scrollHeight) {
+                    /// check that our browser supports changing dimension
+                    /// calculations mid-way through a function call...
+                    ta.style.height = (height + scanAmount) + 'px';
+                    /// because the scrollbar can cause calculation problems
+                    ta.style.overflow = 'hidden';
+                    /// by checking that scrollHeight has updated
+                    if (scrollHeight < ta.scrollHeight) {
+                        /// now try and scan the ta's height downwards
+                        /// until scrollHeight becomes larger than height
+                        while (ta.offsetHeight >= ta.scrollHeight) {
+                            ta.style.height = (height -= scanAmount) + 'px';
+                        }
+                        /// be more specific to get the exact height
+                        while (ta.offsetHeight < ta.scrollHeight) {
+                            ta.style.height = (height++) + 'px';
+                        }
+                        /// reset the ta back to it's original height
+                        ta.style.height = origHeight;
+                        /// put the overflow back
+                        ta.style.overflow = overflow;
+                        return height;
+                    }
+                } else {
+                    return scrollHeight;
+                }
+            }
 
-                                                                $(document).ready(function () {
+            var calculateHeight = function () {
+                var ta = document.getElementById("ta"),
+                        style = (window.getComputedStyle) ?
+                        window.getComputedStyle(ta) : ta.currentStyle,
+                        // This will get the line-height only if it is set in the css,
+                        // otherwise it's "normal"
+                        taLineHeight = parseInt(style.lineHeight, 10),
+                        // Get the scroll height of the textarea
+                        taHeight = calculateContentHeight(ta, taLineHeight),
+                        // calculate the number of lines
+                        numberOfLines = Math.ceil(taHeight / taLineHeight) - 2;
 
-                                                                    $('#taTemp').on('keyup', function () {
-                                                                        $("#ta").val($.trim($("#taTemp").val()).replace(/\s*[\r\n]+\s*/g, '\n')
-                                                                                .replace(/(<[^\/][^>]*>)\s*/g, '$1')
-                                                                                .replace(/\s*(<\/[^>]+>)/g, '$1'));
-                                                                        calculateHeight();
-                                                                    });
+                document.getElementById("lines").innerHTML = "there are " +
+                        numberOfLines + " lines in the Legal Notes";
+                $("#leganoticLinesCount").val(numberOfLines);
+            };
 
-                                                                });
+            $(document).ready(function () {
+
+                $('#taTemp').on('keyup keypress blur change', function () {
+                    if ($.trim($("#taTemp").val()) != "") {
+                        $("#ta").val($.trim($("#taTemp").val()).replace(/\s*[\r\n]+\s*/g, '\n')
+                                .replace(/(<[^\/][^>]*>)\s*/g, '$1')
+                                .replace(/\s*(<\/[^>]+>)/g, '$1'));
+                        calculateHeight();
+                    }else{
+                        document.getElementById("lines").innerHTML="";
+                    }
+                });
+
+            });
         </script>
     </body>
 </html>
