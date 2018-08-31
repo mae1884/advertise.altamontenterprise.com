@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css?family=Goudy+Bookletter+1911');
+/* =================== 1 Common Css  =======================*/
+body{
+  
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;    
+}
+
+* { text-rendering: optimizeLegibility; }
+html.touch * { text-rendering: optimizeSpeed; }
+
+/*common*/
+a:focus, a:hover { outline: none; text-decoration: none; }
+
+.mt20 { margin-top: 20px; }
+.mt30 { margin-top: 30px; }
+.mt60 { margin-top: 60px; }
+.mt40 { margin-top: 40px; }
+.mt45 { margin-top: 45px; }
+.mb40 { margin-bottom: 40px; }
+.mb50 { margin-bottom: 50px; }
+.mt50 { margin-top: 50px; }
+.mt70 { margin-top: 70px; }
+.mt75 { margin-top: 75px; }
+.mr5 { margin-right: 5px; }
+.mr10 { margin-right: 10px; }
+.mr15 { margin-right: 15px; }
+.mb20 { margin-bottom: 20px; }
+.btn { padding: 6px 20px;  }
+.pr30 { padding-right: 30px; }
+.pl30 { padding-left: 30px; }
+
+h1 { font-family: 'Goudy Bookletter 1911', serif; font-weight: bold; text-shadow: 2px 2px #ddd; text-decoration: none; padding-top: 0; margin: 0;  }
+
+header { padding: 15px 0; box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15); }
+h2 { font-size: 35px; color: #00ed82; font-weight: 300; margin-top: 60px; }
+
+.mainbox { margin-top: 50px; }
+.control-label { padding-top: 10px;}
+.error { color: #ff0000;}
+
+
+
+h4 { color: #365E90; margin-top: 20px;   }
+
+/*------Thanks You Page CSS--------*/
+.thanyou {
+    margin: 50px auto 0;
+    text-align: center;
+    width: 400px;
+}
+.thanyou i {
+    border: 2px solid #37a000;
+    border-radius: 50%;
+    color: #37a000;
+    font-size: 43px;
+    height: 80px;
+    line-height: 80px;
+    width: 80px;
+}
+
+.fileupload .form-control { height: auto;  }
+
+textarea.form-control {
+    height: 103px;
+    overflow: hidden;
+    resize: none;
+}
+#successMessage { display: none; position: absolute; right: 0; top: 12px;  }
+#buttonsubmitImage { display: none; position: absolute; right: 0; top: 12px;  }
+.mt10 { margin-top: 10px;   }
+
+.note { padding: 8px; background-color: #f1f1f1; font-size: 12px; }
+
+input[type="file"] {     height: auto; padding-left: 6px;  }
+
+/*New CSS*/
+
+.header-right { font-weight: 500;  color: #888; line-height: 21px;  }
+.mb30 { margin-bottom: 30px;  }
+.panel { box-shedow:none;     -webkit-box-shadow:none;  }
+.panel-primary > .panel-heading { color: #000; background-color:transparent; border-color: #c1c1c1; padding-left: 0; margin-bottom: 20px; }
+.panel-primary { border: 0; }
+.panel-title { font-size: 18px; } 
+.form-horizontal .control-label { font-weight: 500; }
+
+/*.form-control { box-shadow: none; border: 0; border-bottom: 1px solid #ccc; border-radius: 0; padding-left: 1px;  }
+.form-control:focus { box-shadow: none;  }*/
+
+.modal-content  .tab-nav {
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    padding: 0;
+}
+.tab-nav ul {
+    margin: 0;
+    padding: 0;
+}
+.tab-nav li {
+    display: inline-block;
+    margin-right: 40px;
+    padding: 20px 0;
+    position: relative;
+}
+
+.modal-content  .tab-nav .selected::before {
+    border-bottom: 10px solid #ccc;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    bottom: -1px;
+    content: "";
+    height: 0;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    width: 0;
+}
+.modal-content  .tab-nav .selected::after {
+    border-bottom: 8px solid #fff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    bottom: -1px;
+    content: "";
+    height: 0;
+    left: 50%;
+    margin-left: -8px;
+    position: absolute;
+    width: 0;
+}
+.modal-content .button-link {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #2c6ee1;
+    cursor: pointer;
+    display: inline;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+}
+.modal-content .tab-nav .selected {
+    color: #ffc21d;
+}
+.modal-body h4, .modal-body h5 {
+    font-size: 13px;
+}
+.normal {
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+.signature-preview .signature{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15) inset;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    min-height: 90px;
+    overflow: auto;
+    padding: 10px 5px;
+    vertical-align: middle;
+}
+article#select-style {
+    position: relative;
+}
+#select-style .change-style {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#select-style  .button-link {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #2c6ee1;
+    cursor: pointer;
+    display: inline;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+}
+#save_btn {
+    color: #fff;
+    padding: 0.8em;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    border-radius: 30px;
+    background: #008e90;
+    outline: none;
+    margin: 23px 0 0;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.signature-preview .signature {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15) inset;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    min-height: 90px;
+    overflow: auto;
+    padding: 10px 5px;
+    vertical-align: middle;
+}
+.nopadding {
+    padding: 0;
+}
+.nomargin{
+  margin: 0px;
+}
+article#select-style {
+    position: relative;
+}
+
+.p1 {
+    font-size: 30px;
+    color: #000;
+    font-weight: 500;
+}
+
+@media (min-width: 1200px){
+
+.container {
+    width: 1270px;
+}
+}
+
+
+input[type="radio"], input[type="checkbox"] {
+    margin: 4px 0 0;  
+}
+
+.noteBG { background:#f1f1f1; padding:15px; font-size: 12px; line-height: 20px; margin-bottom: 40px;   }
+.btn-info { margin: 40px 0;  }  
+
+/*------------Responsive-----------*/
+@media screen and (max-width:768px){
+  header h1 { padding-top: 0; font-size: 30px;  }
+  .panel-body { padding: 0;}
+  .mainbox { margin-top: 20px; }
+  .form-horizontal .control-label {  margin-bottom: 4px; }
+}
+
+@media screen and (max-width:767px){
+
+    h2 { font-size: 24px; margin-top: 33px;  }
+    header { min-height: inherit; padding-top: 10px; }
+
+    .form-title { margin-top: 37px; padding: 25px 20px; font-size: 20px;  }
+    .florida-form label {   font-size: 16px;  }
+    .radio, .checkbox { margin-top: 10px;  }
+    .florida-form { margin-bottom: 40px; padding-left: 10px; padding-right: 10px; }
+    .florida-form .form-group { margin-bottom: 20px;  }
+    
+
+}
+
+
+
+@media(max-width:414px) { 
+   .thanyou {width: 80%;}
+   .mainbox { margin-top: 20px;}
+   header { text-align: center;   }
+
+}
+

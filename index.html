@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+        <title>The Altamont Enterprise</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        
+        <!--Roboto google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+
+        <link href="css/bootstrap.css" rel="stylesheet">       
+        <link href="css/font-awesome.css" rel="stylesheet">        
+        <link href="css/style.css" rel="stylesheet">            
+    	          
+    </head>   
+    <body>
+
+        
+        <header>
+            
+                <div class="container">
+                    <div class="row">
+                    	
+						<div class="text-center">
+							<h1>The Altamont Enterprise</h1>
+						</div>
+						
+      				</div>
+      			</div>
+      	</header>			
+
+      	<section>
+      		<div class="container">    
+            
+				    <div class="mainbox col-md-12">
+				    	<form  class="form-horizontal" method="post" >
+					    	
+					        <div class="panel panel-primary">
+					            <div class="panel-heading">
+					                <div class="panel-title">Advertise in The Enterprise</div>               
+					            </div>  
+					            <div class="panel-body row" >
+
+											<div class="col-md-6 col-sm-6">
+												<form role="form" data-toggle="validator">
+
+												 <div class="form-group">
+												    <label class="control-label col-md-4">Publish <span class="error">*</span></label>
+												    <div class="controls col-md-8 ">
+
+												    	<div class="row">
+												    		<div class="col-md-6">
+												    			<div class="checkbox">
+															      <label>
+															        <input type="checkbox" id="terms" data-error="Bordered display ad">
+															        Bordered display ad
+															      </label>
+															      <div class="help-block with-errors"></div>
+															    </div>
+
+															     <div class="checkbox">
+															      <label>
+															        <input type="checkbox" class="Announcement" onchange="AnnouncementCheck()">
+															        Announcement
+															      </label>
+															      <div class="help-block with-errors"></div>
+															    </div>
+
+															    <div class="checkbox">
+															      <label>
+															        <input type="checkbox">
+															        Other
+															      </label>
+															      <div class="help-block with-errors"></div>
+															    </div>
+
+												    		</div>
+												    		<div class="col-md-6">
+												    				<div class="checkbox">
+																      <label>
+																        <input type="checkbox" id="terms" data-error="Classified listing" required>
+																        Classified listing
+																      </label>
+																      <div class="help-block with-errors"></div>
+																    </div>
+
+																    <div class="checkbox">
+																      <label>
+																        <input type="checkbox" class="legal-notice" onchange="LegalNoticeCheck()">
+																        Legal notice
+																      </label>
+																      <div class="help-block with-errors"></div>
+																    </div>
+												    		</div>
+												    	</div>
+
+												    </div>
+												  </div>	
+												 <div class="form-group">
+												    <label class="control-label col-md-4">First name <span class="error">*</span></label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control" name="Fname" placeholder="" required>
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Last name </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="Lname" placeholder="">
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Company </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="Company" placeholder="">
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Phone </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="Phone" placeholder="">
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Email <span class="error">*</span></label>
+												    <div class="controls col-md-8 ">
+												    	<input type="email" class="form-control"  name="Email" placeholder="" required>
+												    </div>
+												  </div>
+
+												   <div class="form-group">
+												    <label class="control-label col-md-4">Billing address </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="BillingAddress" placeholder="">
+												    </div>
+												  </div>
+
+												   <div class="form-group">
+												    <label class="control-label col-md-4">City <span class="error">*</span> </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="City" placeholder="" required>
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">State </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="City" placeholder="">
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">ZIP code <span class="error">*</span> </label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="ZIPcode" placeholder="" required>
+												    </div>
+												  </div>
+
+												<!-- Legal notice Data -->
+												<div class="legal-notice-data" style="display: none;">
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4"></label>
+												    <div class="controls col-md-8 ">
+												    	<div class="checkbox">
+													      <label>
+													        <input type="checkbox" class="AffidavitAddress" id="terms" onchange="valueChanged()"> Affidavit address (check if different from above) 
+													      </label>
+													      
+													    </div>
+
+													    <div class="mt10 answer" style="display: none;">
+													    	<textarea class="form-control"></textarea>
+												    		<small>Send affidavit to this address</small>
+												    	</div>
+
+												    	<div class="mt10 note">
+												    		<p>Add the text you want published as a legal notice in the box below. We will format it and send a proof and cost estimate to your email. Please note, your notice won't be published without an approval email by the Monday before Thursday publication. </p>
+
+												    		<p>To find out more about legal notices and see examples, visit our <a href="https://altamontenterprise.com/content/advertising" target="_blank">advertising page.</a></p>
+
+												    	</div>
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Number of consecutive runs</label>
+												    <div class="controls col-md-8 ">
+												    	<input type="text" class="form-control"  name="runs" placeholder="" required>
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Legal notice</label>
+												    <div class="controls col-md-8 ">
+												    	<textarea class="form-control">
+												    		
+												    	</textarea>												    													    
+												    </div>
+												  </div>
+
+												</div>
+
+												<!-- Announcement  Data-->
+												  <div class="announcement-data" style="display: none;">
+												  <div class="form-group">
+												    <label class="control-label col-md-4"></label>		
+												    <div class="controls col-md-8 ">										    
+												    	<p>Use one or all of these uploaders to send us your photos, ads, or anything else you want to show us.</p>
+													</div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">File upload</label>
+												    <div class="controls col-md-8 ">
+												    	<input type="file" class="form-control">
+												    </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">File upload</label>
+												    <div class="controls col-md-8 ">
+												    	<input type="file" class="form-control">
+												    </div>
+												  </div>
+
+												   <div class="form-group">
+												    <label class="control-label col-md-4">Image</label>
+												    <div class="controls col-md-8 ">
+												    	<label class="control-label">Link</label>
+												    	<input type="text" class="form-control"  name="link" placeholder="" required>
+
+												    	<label class="control-label">Local Computer</label>
+												    	<input type="file" class="form-control"  name="LocalComputer" placeholder="" required>
+
+												    </div>
+												  </div>
+												  </div>
+
+												  <div class="form-group">
+												    <label class="control-label col-md-4">Note</label>
+												    <div class="controls col-md-8 ">
+												    	<textarea class="form-control">
+												    		
+												    	</textarea>
+												    	<small>Make a note, ask a question, or tell us more about what you're trying to do with your business.</small>
+												    	
+												    </div>
+												  </div>
+
+												  
+
+												  <div class="form-group"> 		                            
+							                            <div class="controls col-md-12 text-center">
+							                                <input type="submit" name="Signup" value="Signup" class="btn btn-primary btn btn-info" id="submit-id-signup" />		                               
+							                            </div>
+									                </div>
+												</form>
+
+												
+												
+
+
+											</div>																								
+					            </div>
+					        </div>
+
+				        	
+					       
+
+					       
+
+					       
+					       
+					     
+
+				         	
+
+				        </form>
+				    </div> 
+			</div>
+                
+      	</section>
+
+    <!--Jquery Libraries Js-->
+        <script src="js/jquery.min.js"></script>
+
+        <!--bootstrap Js-->
+        <script src="js/bootstrap.js"></script>     
+         <script src="js/validator.js"></script> 
+<script>
+ $(document).ready(function(){   
+	$('#myForm').validator()
+
+	
+
+});
+
+ // Affidavit Address Checkbox
+ function valueChanged()
+	{
+    if($('.AffidavitAddress').is(":checked"))   
+        $(".answer").show();
+    else
+        $(".answer").hide();
+	}
+
+
+	// Announcement Checkbox
+	function AnnouncementCheck()
+	{
+    if($('.Announcement').is(":checked"))   
+        $(".announcement-data").show();
+    else
+        $(".announcement-data").hide();
+	}
+
+	// Legal Notice Checkbox
+	function LegalNoticeCheck()
+	{
+    if($('.legal-notice').is(":checked"))   
+        $(".legal-notice-data").show();
+    else
+        $(".legal-notice-data").hide();
+	}
+
+</script>
+       
+    </body>
+</html>
