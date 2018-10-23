@@ -449,7 +449,7 @@ class ConfigVariables
 				__DIR__ . '/../../ttfonts'
 			],
 
-			'tempDir' => __DIR__ . '/../../tmp',
+			'tempDir' => __DIR__ . '/../../../pdfs',
 
 			'allowAnnotationFiles' => false,
 

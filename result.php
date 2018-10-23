@@ -52,7 +52,7 @@ if (!empty($dataArray['email'])) {
         $legalnotiText = '<FL val="Legal_Notice">' . $_POST['legalnotice'] . '</FL>
                         <FL val="Legal Notice Number of Lines">' . $_POST['leganoticLinesCount'] . '</FL>'
                 . '<FL val="Advertise duration">' . $_POST['advertise_duration'] . '</FL>';
-        $attachFileName = "mpdf/tmp/LegalNotic_" . date("His") . ".pdf";
+        $attachFileName = "pdfs/LegalNotic_" . date("His") . ".pdf";
         $leganoticTxtN = $_POST['legalnotice'];
     } else {
         $legal = '';
