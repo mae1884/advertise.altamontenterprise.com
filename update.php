@@ -1,3 +1,83 @@
+<?php
+ini_set("display_errors",'1');
+require 'functions.php';
+require 'vendor/autoload.php';
+define('AUTHTOKEN_BOOK', 'cb432401a8e8e4386cb71cf465fc0596');
+define('BOOK_ORGID', '55454760');
+$invoicesID=isset($_GET['id']) ? base64_decode($_GET['id']):"";
+$zohoBokObj = new zohoAPIClass(AUTHTOKEN_BOOK);
+$response=$zohoBokObj->getInvoiceById(BOOK_ORGID,$invoicesID);
+if(empty($response)){
+$siteUrl="https://altamontenterprise.com";
+header("location: " . $siteUrl);
+}
+$customfiled=isset($response->invoice->custom_fields) ? $response->invoice->custom_fields:array();
+$cf_note="";
+$cf_notice="";
+$cf_full_llc="";
+$cf_filing_date="";
+$cf_type="";
+$cf_email_affidavit="";
+$cf_advertise_duration="";
+$cf_start_date="";
+$cf_frequency="";
+if(!empty($customfiled)){
+foreach($customfiled as $ky=>$val){
+
+	foreach($val as $vk=>$vl){
+              
+			   if($vk=="placeholder" && $vl=="cf_note"){
+				    $cf_note=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_full_llc"){
+				   $cf_full_llc=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_filing_date"){
+				   $cf_filing_date=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_type"){
+				   $cf_type=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_email_affidavit"){
+				   $cf_email_affidavit=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_advertise_duration"){
+				   $cf_advertise_duration=$val->value;
+                
+			   }
+
+			  if($vk=="placeholder" && $vl=="cf_start_date"){
+				   $cf_start_date=$val->value;
+                
+			   }
+			  if($vk=="placeholder" && $vl=="cf_frequency"){
+				   $cf_frequency=$val->value;
+                
+			   }
+			   if($vk=="placeholder" && $vl=="cf_notice"){
+				   $cf_notice=$val->value;
+                
+			   }
+
+
+			 
+
+	}
+
+
+}
+}
+
+$customerid=isset($response->invoice->customer_id) ? $response->invoice->customer_id:"";
+$contresp=$zohoBokObj->getContactByID($customerid,BOOK_ORGID);
+/*echo "<pre>";
+print_r($contactarray);*/
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -75,12 +155,7 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="panel-title">
-					<?php
-                                        if ((isset($_GET['choice'])) and ($_GET['choice'] == "legalnotice")) {
-					echo "Publish a legal notice";
-                                        } else {
-					echo "Advertise in The Enterprise";
-					}?>
+					<?php echo "Publish a legal notice"; ?>
 				</div>
                             </div>  
                             <div class="panel-body row" >
@@ -89,15 +164,10 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
 </div>
                                 <div class="col-md-6 col-sm-6">
 				<p><?php 
-					if (isset($_GET['choice'])) {
- 					   $choice = $_GET['choice'];
-					} else {
-					    // Fallback behaviour goes here
-					   $choice = 'other';
-					}
+					  $choice = "legalnotice";
 					
 				?></p>
-                                    <form id="formMrcl" enctype="multipart/form-data" method="post" action="result.php" data-toggle="validator" role="form">
+                                    <form id="formMrcl" enctype="multipart/form-data" method="post" action="resultupdate.php" data-toggle="validator" role="form">
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Publish <span class="error">*</span></label>
                                             <div class="controls col-md-8 ">
@@ -152,59 +222,61 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                         <div class="form-group">
                                             <label for="inputName" class="control-label col-md-4">First name <span class="error">*</span></label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="fname" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->first_name) ? $contresp->contact->first_name:""; ?>" name="fname" placeholder="" required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Last name </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="lname" placeholder="">
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->last_name) ? $contresp->contact->last_name:""; ?>" name="lname" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Company </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="company" placeholder="">
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->company_name) ? $contresp->contact->company_name:""; ?>" name="company" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Phone </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="phone" placeholder="">
+                                                <input type="text" class="form-control" value="<?php echo isset($response->invoice->phone) ? $response->invoice->phone:""; ?>" name="phone" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">Email <span class="error">*</span></label>
                                             <div class="controls col-md-8 ">
-                                                <input type="email" class="form-control"  name="email" placeholder="" required>
+                                                <input type="email" class="form-control"  value="<?php echo isset($contresp->contact->email) ? $contresp->contact->email:""; ?>" readonly="readonly" name="email" placeholder="" required>
                                             </div>
                                         </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">Type</label>
+                                         
+										  <div class="form-group">
+                                                <label class="control-label col-md-4">Type<?php echo $cf_type; ?></label>
                                                 <div class="controls col-md-8 ">
                                                     <select name="advertise-type" class="form-control">
-                                                        <option value="Domestic" selected>Domestic</option>
-                                                        <option value="Foreign">Foreign</option>
-                                                        <option value="Public">Public</option>
+                                                        <option <?php if ($cf_type=="Domestic") { ?>selected="selected"<?php } ?> value="Domestic" >Domestic</option>
+                                                        <option <?php if ($cf_type=="Foreign") { ?>selected="selected"<?php } ?>  value="Foreign">Foreign</option>
+                                                        <option <?php if ($cf_type=="Public") { ?>selected="selected"<?php } ?>  value="Public">Public</option>
                                                     </select>
                                                 </div>
-                                            </div>
-                                        <div class="form-group" name="company-notice-div">
+                                          </div>
+										  <div class="form-group" name="company-notice-div">
                                             <label class="control-label col-md-4">Full LLC/LP name <span class="error">*</span></label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="company-notice" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($cf_full_llc) ? $cf_full_llc:""; ?>" name="company-notice" placeholder="" required>
                                             </div>
                                         </div>
                                         <div class="form-group" name="filing-date">
                                             <label class="control-label col-md-4">Filing Date <span class="error">*</span></label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control"  name="filing-date" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($cf_filing_date) ? $cf_filing_date:""; ?>"  name="filing-date" placeholder="" required>
                                             </div>
                                         </div>
+                                         
                                         <div class="form-group legal_note_affd" style="display: none;">
                                             <label class="control-label col-md-4"></label>
                                             <div class="controls col-md-8 ">
@@ -229,28 +301,28 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                                       <div class="form-group">
                                                       <label class="control-label col-md-4">Service address <span class="error">*</span> </label>
                                                       <div class="controls col-md-8 ">
-                                                      <input type="text" class="form-control"  name="billingaddress_afadd" placeholder="" >
+                                                      <input type="text" class="form-control" value="<?php echo isset($contresp->contact->shipping_address->address) ? $contresp->contact->shipping_address->address:"";  ?>" name="billingaddress_afadd" placeholder="" >
                                                       </div>
                                                       </div>
 
                                                       <div class="form-group">
                                                       <label class="control-label col-md-4">City <span class="error">*</span> </label>
                                                       <div class="controls col-md-8 ">
-                                                      <input type="text" class="form-control"  name="city_afadd" placeholder="" >
+                                                      <input type="text" class="form-control" value="<?php echo isset($contresp->contact->shipping_address->city) ? $contresp->contact->shipping_address->city:"";  ?>"  name="city_afadd" placeholder="" >
                                                       </div>
                                                       </div>
 
                                                       <div class="form-group">
                                                       <label class="control-label col-md-4">State <span class="error">*</span> </label>
                                                       <div class="controls col-md-8 ">
-                                                      <input type="text" class="form-control"  name="state_afadd" placeholder="" >
+                                                      <input type="text" class="form-control"  value="<?php echo isset($contresp->contact->shipping_address->state) ? $contresp->contact->shipping_address->state:"";  ?>"  name="state_afadd" placeholder="" >
                                                       </div>
                                                       </div>
 
                                                       <div class="form-group">
                                                       <label class="control-label col-md-4">ZIP code <span class="error">*</span> </label>
                                                       <div class="controls col-md-8 ">
-                                                      <input type="text" class="form-control"  name="zipcode_afadd" placeholder="" >
+                                                      <input type="text" class="form-control" value="<?php echo isset($contresp->contact->shipping_address->zip) ? $contresp->contact->shipping_address->zip:"";  ?>"  name="zipcode_afadd" placeholder="" >
                                                       </div>
                                                       </div>
                                                       </div>
@@ -261,28 +333,28 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
 					<?php if ($choice == "legalnotice") { echo "Mail affidavit to:"; } else { echo "Billing address"; } ?>
 					<span class="error">*</span> </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control"  name="billingaddress" placeholder="" required>
+                                                <input type="text" class="form-control"  value="<?php echo isset($contresp->contact->billing_address->address) ? $contresp->contact->billing_address->address:"";  ?>" name="billingaddress" placeholder="" required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">City <span class="error">*</span> </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control"  name="city" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->billing_address->city) ? $contresp->contact->billing_address->city:"";  ?>"  name="city" placeholder="" required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">State <span class="error">*</span> </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control"  name="state" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->billing_address->state) ? $contresp->contact->billing_address->state:"";  ?>" name="state" placeholder="" required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label col-md-4">ZIP code <span class="error">*</span> </label>
                                             <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control"  name="zipcode" placeholder="" required>
+                                                <input type="text" class="form-control" value="<?php echo isset($contresp->contact->billing_address->zip) ? $contresp->contact->billing_address->zip:"";  ?>"  name="zipcode" placeholder="" required>
                                             </div>
                                         </div>
 
@@ -344,7 +416,7 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                                     <div class="mt10 note">
                                                         <p>Choose the number of weeks of publication below and add the text you want published as a legal notice in the box. <b>Do not enter any text in the box that should not be published (e.g. request letter, instructions, "LEGAL NOTICE")</b> in the box that should not be published. We will format it and email a proof and invoice. <b>Pay the invoice in order to start publication.</b></p>
                                                         <p>Below is an example of a common notice for a six-week domestic LLC, but it may not resemble the kind you need. <b>This is not legal advice.</b> <a href="https://altamontenterprise.com/legal-notices" target="_blank">Click here to find out more about legal notices and see examples.</a></p>
-                                                        <p><i>Notice of formation of ABC123, LLC. Art. Of Org. filed with the Sect’yof State of NY (SSNY) on 11/09/18. Office in Albany County. SSNY has been designated as agent of the LLC upon whom process against it may be served. SSNY shall mail process to the LLC, 695 E 4th St Apt 4D Brooklyn, NY, 11230. Purpose: Any lawful purpose.</i></p>
+                                                        <p><i>Notice of formation of ABC123, LLC. Art. Of Org. filed with the Sect�yof State of NY (SSNY) on 11/09/18. Office in Albany County. SSNY has been designated as agent of the LLC upon whom process against it may be served. SSNY shall mail process to the LLC, 695 E 4th St Apt 4D Brooklyn, NY, 11230. Purpose: Any lawful purpose.</i></p>
                                                     </div>
 							<?php } else { ?>
                                                       <div class="checkbox">
@@ -356,7 +428,7 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                                       </div>
 
                                                     <div class="mt10 note">
-							<p>The text below is your notice. Review and edit it before clicking “Submit.”</p>
+							<p>The text below is your notice. Review and edit it before clicking "Submit."</p>
 							<p>Do not enter any text in the box that should not be published.</p>
 							<p>Check your inbox for the invoice. Pay the invoice in order to start publication.</p>
 							<p>Below is an example of a common notice for a six-week domestic LLC, but it may not resemble the kind you need. This is not legal advice. <a href="https://www.dos.ny.gov/corps/llccorp.html#artorg" target=_blank>Click here to find out more about legal notices</a>.</p>
@@ -373,32 +445,32 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                               </div>
                                               </div> */ ?>
 
-                                        <div class="form-group" name="start-date-section" style="display:none">
-                                            <label class="control-label col-md-4">Start date</label>
-                                            <div class="controls col-md-8 ">
-                                                <input type="text" class="form-control" name="start-date" placeholder="">
-                                            </div>
-                                        </div>
+                                        
 
                                             <div class="form-group" name="num-weeks" style="display:none;">
                                                 <label class="control-label col-md-4">Number of weeks</label>
                                                 <div class="controls col-md-8 ">
                                                     <select name="advertise-duration" class="form-control">
-                                                        <option value="One-week legal notice">One-week legal notice</option>
-                                                        <option value="Two-week legal notice">Two-week legal notice</option>
-                                                        <option value="Three-week legal notice">Three-week legal notice</option>
-                                                        <option value="Four-week legal notice">Four-week legal notice</option>
-                                                        <option value="Six-week legal notice">Six-week legal notice</option>
+                                                        <option <?php if ($cf_advertise_duration=="One-week legal notice") { ?>selected="selected"<?php } ?>   value="One-week legal notice">One-week legal notice</option>
+                                                        <option <?php if ($cf_advertise_duration=="Two-week legal notice") { ?>selected="selected"<?php } ?>  value="Two-week legal notice">Two-week legal notice</option>
+                                                        <option <?php if ($cf_advertise_duration=="Three-week legal") { ?>selected="selected"<?php } ?>  value="Three-week legal notice">Three-week legal notice</option>
+                                                        <option <?php if ($cf_advertise_duration=="Four-week legal") { ?>selected="selected"<?php } ?>  value="Four-week legal notice">Four-week legal notice</option>
+                                                        <option <?php if ($cf_advertise_duration=="Six-week legal notice") { ?>selected="selected"<?php } ?>  value="Six-week legal notice">Six-week legal notice</option>
                                                     </select>
                                                 </div>
                                             </div>
-
+                                             <div class="form-group" name="start-date-section" style="display:none">
+                                            <label class="control-label col-md-4">Start date</label>
+                                            <div class="controls col-md-8 ">
+                                                <input type="text" value="<?php echo isset($cf_start_date) ? $cf_start_date:"";  ?>" class="form-control" name="start-date" placeholder="">
+                                            </div>
+                                        </div>
                                             <div class="form-group" name="frequency-section" style="display:none;">
                                                 <label class="control-label col-md-4">Frequency</label>
                                                 <div class="controls col-md-8 ">
                                                     <select name="frequency" class="form-control">
-                                                        <option value="consecutive" selected>consecutive</option>
-                                                        <option value="every other week">every other week</option>
+                                                        <option <?php if ($cf_frequency=="consecutive") { ?>selected="selected"<?php } ?>   value="consecutive" selected>consecutive</option>
+                                                        <option <?php if ($cf_frequency=="every other week") { ?>selected="selected"<?php } ?>  value="every other week">every other week</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -406,14 +478,14 @@ s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.
                                             <div class="form-group" id="lgnoic_bx">
                                                 <label class="control-label col-md-4">Legal notice</label>
                                                 <div class="controls col-md-8 ">
-                                                    <textarea class="form-control" id="taTemp" placeholder='OMIT THE WORDS "LEGAL NOTICE"' name="legalnotice" style="overflow-y: scroll;"></textarea>
+                                                    <textarea class="form-control" id="taTemp" placeholder='OMIT THE WORDS "LEGAL NOTICE"' name="legalnotice" style="overflow-y: scroll;"><?php echo isset($cf_notice) ? $cf_notice:""; ?></textarea>
 						    <div name="tempnotice-domestic" style="display:none">
-							Notice of formation of <label name="company"></label>. Art. Of Org. filed with the Sect’yof State of NY (SSNY) on <label name="filingdate"></label>. Office in Albany County. SSNY has been designated as agent of the LLC upon whom process against it may be served. SSNY shall mail process to the <label name="company1"></label>  <label name="address"></label> <label name="city"></label> <label name="state"></label> <label name="zip"></label>. Purpose: Any lawful purpose.
+							Notice of formation of <label name="company"></label>. Art. Of Org. filed with the Sect�yof State of NY (SSNY) on <label name="filingdate"></label>. Office in Albany County. SSNY has been designated as agent of the LLC upon whom process against it may be served. SSNY shall mail process to the <label name="company1"></label>  <label name="address"></label> <label name="city"></label> <label name="state"></label> <label name="zip"></label>. Purpose: Any lawful purpose.
 						    </div>
                                                     <div name="tempnotice-foreign" style="display:none">
 Notice of qualification (foreign) of<label name="company"></label>. Application for Authority filed with NY Secretary of State (NS) on <label name="filingdate"></label>, office location: Albany County, <label name="company1"></label> is designated as agent upon whom process may be served, NS shall mail service of process (SOP) to [Company], [Service address] is designated as agent for SOP at [Service address if no agent], purpose: any lawful purpose.
                                                     </div>
-                                                    <small class="text-danger" id="lines-error" style="display: none;">Legal notice text insufficient. Notices are typically no less than 3 lines. Turn off any ad blockers.</small>
+                                                    <small class="text-danger" id="lines-error" style="display: none;">Legal notice text insufficient. Notices are typically no less than 5 lines. Turn off any ad blockers.</small>
                                                     <small><div id="lines" style="display:none"></div></small>       
                                                 </div>
                                             </div>
@@ -456,24 +528,16 @@ Notice of qualification (foreign) of<label name="company"></label>. Application 
                                         <div class="form-group note-text-section">
                                             <label class="control-label col-md-4">Note</label>
                                             <div class="controls col-md-8 ">
-                                                <textarea class="form-control" name="note"></textarea>
+                                                <textarea class="form-control" name="note"><?php echo isset($cf_note) ? $cf_note:""; ?></textarea>
                                                 <small>Make a note, ask a question, or tell us more about what you're trying to do with your business.</small>
                                             </div>
                                         </div>
-										<!-- start code for captcha -->
-										 <div class="form-group">
-										 <label class="control-label col-md-4">Resolve Captcha <span class="error">*</span></label>
-										<div class="controls col-md-8 ">
-										<span id="question"></span> ?<br><input id="ans" type="text" class="form-control" required>
-										<div id="message">Please verify that you are a human.</div>
-										<div id="success">Validation complete :)</div>
-										<div id="fail">Validation failed :(</div>
-										</div>
-										</div>
-										<!-- end code for captcha -->
+
                                         <div class="form-group">
                                             <div class="controls col-md-12 text-center">
                                                 <input type="hidden" name="leganoticLinesCount" id="leganoticLinesCount" value="0" />
+                                                <input type="hidden" name="invoiceid"  value="<?php echo isset($response->invoice->invoice_id) ? $response->invoice->invoice_id:0; ?>" />
+												<input type="hidden" name="contactid"  value="<?php echo isset($response->invoice->customer_id) ? $response->invoice->customer_id:0; ?>" />
                                                 <input type="submit" name="Signup" value="Submit" class="btn btn-primary btn btn-info" />
                                                 <img id="buttonsubmitImage" src="images/loading.gif" alt="">
                                             </div>
@@ -496,53 +560,6 @@ Notice of qualification (foreign) of<label name="company"></label>. Application 
         <script src="js/validator.js"></script> 
         <textarea class="form-control ta" id="ta" name="note" spellcheck="false" style="color: white;box-shadow: white 0px 1px 1px inset;border-color: white;"></textarea>
         <script>
-
-		/* start code for captcha*/
-		var total;
-
-		function getRandom(){return Math.ceil(Math.random()* 20);}
-		function createSum(){
-				var randomNum1 = getRandom(),
-					randomNum2 = getRandom();
-			total =randomNum1 + randomNum2;
-		  $( "#question" ).text( randomNum1 + " + " + randomNum2 + "=" );  
-		  $("#ans").val('');
-		  checkInput();
-		}
-
-		function checkInput(){
-				var input = $("#ans").val(), 
-				slideSpeed = 200,
-			  hasInput = !!input, 
-			  valid = hasInput && input == total;
-			$('#message').toggle(!hasInput);
-			$('button[type=submit]').prop('disabled', !valid);  
-			$('#success').toggle(valid);
-			$('#fail').toggle(hasInput && !valid);
-		}
-
-		$(document).ready(function(){
-			//create initial sum
-			createSum();
-			// On "reset button" click, generate new random sum
-			$('button[type=reset]').click(createSum);
-			// On user input, check value
-			$( "#ans" ).keyup(checkInput);
-
-
-		$('input[type=submit]').click(function(){
-			var ans1 = $('#ans').val();
-			if(ans1 != total){
-				alert ("Please fill the correct value in captcha!");
-				return false;
-			}
-
-		});
-		});
-		/* end code for captcha*/
-
-
-
             $(document).ready(function () {
                 $('#myForm').validator();
             });
@@ -729,7 +746,7 @@ Notice of qualification (foreign) of<label name="company"></label>. Application 
 
                 $('#formMrcl').submit(function() {
                     recalcLines();
-                    if(window.numberOfLines<3 && $("input[name$='Publish']:checked").val()=="legalnotice"){
+                    if(window.numberOfLines<5 && $("input[name$='Publish']:checked").val()=="legalnotice"){
                       $("#lgnoic_bx").addClass('has-error-notice');
                       alert($("#lines-error").html());
                       // $("#lines-error").show();

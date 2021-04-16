@@ -49,6 +49,7 @@ class zohoAPIClass {
     private $ch;
     public $invoiceId="";
     public $templateId="";
+	public $email_temp="";
 
     function __construct($authtoken) {
         $this->authtoken = $authtoken;
@@ -177,11 +178,69 @@ class zohoAPIClass {
         }
     }
 
-    /**
+	 /**
      * $postString zoho post string
      * $moduleName zoho module name
      */
     public function makeBookRequest($postArray, $moduleName, $orgId, $returnResponse = false) {
+        //manual curl call
+        //$url = 'https://books.zoho.com/api/v3/' . $moduleName;
+		$post['JSONString'] = json_encode($postArray);
+
+        //$jsonString = json_encode($postArray);
+
+        //$query = "authtoken={$this->authtoken}&organization_id={$orgId}&JSONString={$jsonString}";
+		$api_request_url = 'https://books.zoho.com/api/v3/' .$moduleName.'?organization_id=' . $orgId . '&authtoken=' . $this->authtoken;
+		$ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $api_request_url);
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $results = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+		
+        /*$this->ch = $this->curlInit($url);
+        $results = $this->curlPostFields($query);*/
+
+        $response = json_decode($results);
+
+        // $this->getCurlError();
+
+        if ($returnResponse) {
+            return $response;
+        }
+
+        if ($response->code == 0) {
+            $id = '';
+            if ($moduleName == 'contacts') {
+                $id = (string) $response->contact->contact_id;
+            } else if ($moduleName == 'invoices') {
+                $id = (string) $response->invoice->invoice_id;
+            } else if ($moduleName == 'salesorders') {
+                $id = (string) $response->salesorder->salesorder_id;
+            } else if ($moduleName == 'items') {
+                $id = (string) $response->item->item_id;
+            } else if ($moduleName == 'customerpayments') {
+                $id = (string) $response->payment->payment_id;
+            }
+            return $id;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * $postString zoho post string
+     * $moduleName zoho module name
+     */
+    public function makeBookRequestold($postArray, $moduleName, $orgId, $returnResponse = false) {
         //manual curl call
         $url = 'https://books.zoho.com/api/v3/' . $moduleName;
 
@@ -224,7 +283,7 @@ class zohoAPIClass {
         //manual curl call
         $url = 'https://books.zoho.com/api/v3/invoices/'.$invoiceId.'/status/'.$status;
 
-        $jsonString = json_encode($postArray);
+       // $jsonString = json_encode($postArray);
 
         $query = "authtoken={$this->authtoken}&organization_id={$orgId}";
 
@@ -362,6 +421,286 @@ class zohoAPIClass {
         }
     }
 
+	public function updateBookcontacts($contactId,$orgId,$data){
+
+
+		  $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/contacts/$contactId?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode($data);
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($response) {
+                return $response;
+            }
+            return '';
+        }
+
+	 }
+     
+	 public function updateBookinvoice($invoiceId,$orgId,$data){
+
+
+		  $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$invoiceId?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode($data);
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($response) {
+                return $response;
+            }
+            return '';
+        }
+
+	 }
+
+	  public function updateBookinvoiceAddress($invoiceId,$orgId,$data){
+
+    	$ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$invoiceId/address/billing?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode($data);
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($response) {
+                return $response;
+            }
+            return '';
+        }
+
+	 }
+
+	  public function updateBookitem($itemId,$orgId,$data){
+
+
+		  $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/items/$itemId?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode($data);
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($response) {
+                return $response;
+            }
+            return '';
+        }
+
+	 }
+
+
+	public function updateLinkinvoice($invoiceId,$orgId,$link){
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$invoiceId?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode(array("custom_fields"=>array(array( "api_name"=> "cf_link","value"=>$link))));
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($response) {
+                return $response;
+            }
+            return '';
+        }
+
+	}
+
+
+	public function getContactByID($contactId, $orgId) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://books.zoho.com/api/v3/contacts/$contactId?authtoken=$this->authtoken&organization_id=$orgId",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => FALSE, // Turn off the server and peer verification 
+            CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "accept: application/json",
+                "cache-control: no-cache",
+                "content-type: application/json"),
+        ));
+
+        $response = curl_exec($curl);
+
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            //echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            return $response;
+        }
+    }
+
+	public function getInvoiceById($orgId, $invoiceId) {
+	$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$invoiceId?authtoken=$this->authtoken&organization_id=$orgId");
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => FALSE, // Turn off the server and peer verification 
+            CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "accept: application/json",
+                "cache-control: no-cache",
+                "content-type: application/json"),
+        ));
+	$response = curl_exec($ch);
+	$err = curl_error($ch);
+	curl_close($ch);
+	error_log($err, 0);
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+//	    error_log($response->invoice->invoice_url, 0);
+            return $response;
+        }
+    }
+
+    public function setBillingAddress($billingAddress, $contactId, $orgId, $returnResponse = false) {
+        $file_path = realpath($attachFile);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/contacts/$contactId?authtoken=$this->authtoken&organization_id=$orgId");
+        curl_setopt($ch, CURLOPT_POST, true);
+        $post = array("billing_address"=>$billingAddress);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($returnResponse) {
+                return $response;
+            }
+            return '';
+        }
+
+    }
+
+	public function updateBillingAddress($billingAddress, $contactId, $orgId, $returnResponse = false) {
+      
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/contacts/$contactId?authtoken=$this->authtoken&organization_id=$orgId");
+       // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $post['JSONString'] = json_encode(array("billing_address"=>$billingAddress));
+        //$post['JSONString'] = $jsonpost;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+            if ($returnResponse) {
+                return $response;
+            }
+            return '';
+        }
+
+    }
+
+
     public function addAttachmentToInvoice($invoiceId, $attachFile, $returnResponse = false) {
         $file_path = realpath($attachFile);
         $ch = curl_init();
@@ -374,9 +713,9 @@ class zohoAPIClass {
         $post = array("can_send_in_mail"=>"true","attachment" => curl_file_create($file_path, 'application/pdf', basename($file_path)));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
-        $err = curl_error($curl);
+        $err = curl_error($ch);
 
-        curl_close($curl);
+        curl_close($ch);
 
         if ($err) {
             echo "cURL Error #:" . $err;
@@ -392,8 +731,39 @@ class zohoAPIClass {
             return '';
         }
     }
+	  public function sendEmailToPublic($orgId) {
+       // $file_path = realpath($attachFile);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$this->invoiceId/email?authtoken=$this->authtoken&organization_id=$orgId&email_template_id=144886000020177142");
+        curl_setopt($ch, CURLOPT_POST, true);
+//        $body='<p class="p1">Your invoice '.$this->invoiceNumber.' can be viewed, printed or downloaded as PDF from the link below. You can also choose to pay it online.<br><br><a href="'.$this->invoiceURL.'">Click to view Invoice</a></p><p class="p1">We also need a complete name and address for mailing the affidavit (if you haven\'t already provided it). Duplicate affidavits cost $13.</p>';
+        $post = array();
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+//            echo "<pre>";
+//            echo $body;
+//            print_r($response);exit;
+            if (!empty($response)) {
+                return $response;
+            }
+            return '';
+        }
+    }
     public function sendEmailToInvoice($orgId) {
-        $file_path = realpath($attachFile);
+       // $file_path = realpath($attachFile);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);
@@ -405,9 +775,9 @@ class zohoAPIClass {
         $post = array();
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
-        $err = curl_error($curl);
+        $err = curl_error($ch);
 
-        curl_close($curl);
+        curl_close($ch);
 
         if ($err) {
             echo "cURL Error #:" . $err;
@@ -417,13 +787,108 @@ class zohoAPIClass {
 //            echo "<pre>";
 //            echo $body;
 //            print_r($response);exit;
-            if ($returnResponse) {
+            if (!empty($response)) {
                 return $response;
             }
             return '';
         }
     }
 
+	public function sendEmailToInvoiceData($orgId) {
+       // $file_path = realpath($attachFile);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$this->invoiceId/email?authtoken=$this->authtoken&organization_id=$orgId&email_template_id=$this->email_temp");
+        curl_setopt($ch, CURLOPT_POST, true);
+//        $body='<p class="p1">Your invoice '.$this->invoiceNumber.' can be viewed, printed or downloaded as PDF from the link below. You can also choose to pay it online.<br><br><a href="'.$this->invoiceURL.'">Click to view Invoice</a></p><p class="p1">We also need a complete name and address for mailing the affidavit (if you haven\'t already provided it). Duplicate affidavits cost $13.</p>';
+        $post = array();
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+//            echo "<pre>";
+//            echo $body;
+//            print_r($response);exit;
+            if (!empty($response)) {
+                return $response;
+            }
+            return '';
+        }
+    }
+
+	public function sendToInvoice($orgId,$email_template_id) {
+       // $file_path = realpath($attachFile);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$this->invoiceId/email?authtoken=$this->authtoken&organization_id=$orgId&email_template_id=$this->templateId");
+        curl_setopt($ch, CURLOPT_POST, true);
+//        $body='<p class="p1">Your invoice '.$this->invoiceNumber.' can be viewed, printed or downloaded as PDF from the link below. You can also choose to pay it online.<br><br><a href="'.$this->invoiceURL.'">Click to view Invoice</a></p><p class="p1">We also need a complete name and address for mailing the affidavit (if you haven\'t already provided it). Duplicate affidavits cost $13.</p>';
+        $post = array();
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+//            echo "<pre>";
+//            echo $body;
+//            print_r($response);exit;
+            if (!empty($response)) {
+                return $response;
+            }
+            return '';
+        }
+    }
+
+
+    public function getInvoiceUrl($orgId, $invoiceId) {
+	$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://books.zoho.com/api/v3/invoices/$invoiceId?authtoken=$this->authtoken&organization_id=$orgId");
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => FALSE, // Turn off the server and peer verification 
+            CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "accept: application/json",
+                "cache-control: no-cache",
+                "content-type: application/json"),
+        ));
+	$response = curl_exec($ch);
+	$err = curl_error($ch);
+	curl_close($ch);
+	error_log($err, 0);
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return '';
+        } else {
+            $response = json_decode($response);
+//	    error_log($response->invoice->invoice_url, 0);
+            return $response->invoice->invoice_url;
+        }
+    }
     /**
      * $postString zoho post string
      * $moduleName zoho module name

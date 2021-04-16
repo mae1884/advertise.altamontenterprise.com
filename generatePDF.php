@@ -36,9 +36,22 @@ function add_custom_fonts_to_mpdf($mpdf) {
 }
 ob_start();
 ?>
-<style type="text/css"> /* textarea needs a line-height for the javascript to work */ .ta {width: 150.24px; font-size: 7.5pt; text-indent: 11px; line-height: 7.6pt; font-family: sourcesanspro; height: 500px;text-align: justify;} </style> 
-<div style="text-align: center;width: 150.24px ;font-family: arial;font-size: 7.5pt;"><b>Legal Notice</b></div>
-<div class="ta"><?= $leganoticTxtN ?></div>
+
+<style type="text/css">
+.ta {width: 150.24px; font-size: 7.5pt; text-indent: 11px; line-height: 7.6pt; font-family: sourcesanspro; height: 500px;text-align: justify;} 
+#centrar{position: absolute;
+left: 40%;
+top: 42%;
+-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+    width: 150.24px;
+}
+</style> 
+<div id="centrar">
+    <div style="text-align: center;width: 150.24px ;font-family: arial;font-size: 7.5pt;"><b>Legal Notice</b></div>
+    <div class="ta"><?= nl2br($leganoticTxtN) ?></div>
+</div>
 <?php
 $output = ob_get_contents();
 ob_end_clean();

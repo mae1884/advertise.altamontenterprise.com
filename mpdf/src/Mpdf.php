@@ -1290,7 +1290,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		// Enable all tags as default
 		$this->DisableTags();
 		// Full width display mode
-		$this->SetDisplayMode(100); // fullwidth? 'fullpage'
+		$this->SetDisplayMode('fullwidth'); // fullwidth? 'fullpage'
 
 		// Compression
 		$this->SetCompression(true);
